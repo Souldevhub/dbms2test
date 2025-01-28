@@ -46,8 +46,8 @@ const deleteData = (id, userid) =>
     sendQuery(`DELETE FROM data WHERE id = ? AND userid = ?`, true, id, userid);
 */
 
-export const insertRandomData = async (num_rows) => {
-    const query = 'CALL insert_random_data(?)';  // Procedure name and parameter for number of rows
+export const insert_multiple_rows = async (num_rows) => {
+    const query = 'CALL insert_multiple_rows(?)';
     try {
         const result = await pool.query(query, [num_rows]);
         return result;
