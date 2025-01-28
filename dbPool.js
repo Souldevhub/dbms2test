@@ -1,12 +1,20 @@
 import { createPool } from "mariadb"
 
 const pool = createPool({
-    host: "maria.northeurope.cloudapp.azure.com",
-    user: "testi",
-    port: 3306,
-    password: "mariadb1",
-    database: "adbms",
+    host: 'anatoliiu2306851.westeurope.cloudapp.azure.com',
+    user: 'anatolii',
+    password: 'password1',
+    database: 'test',
+    connectionLimit: 10,
+    connectTimeout: 5000,
+});
+   
+pool.getConnection()
+.then(conn => {
+    console.log('Connected successfully');
+    conn.release();
 })
+
 
 export default Object.freeze({
     pool: pool

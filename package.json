@@ -12,8 +12,9 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "express": "^4.21.1",
-    "mariadb": "^3.4.0"
+    "express": "^4.21.2",
+    "mariadb": "^3.4.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "cors": "^2.8.5",

@@ -16,12 +16,12 @@ const sendQuery = async (sql, doCommit, ...params) => {
         throw err
     } finally {
         if (conn)
-            conn.end()
+            conn.release()
         return(result)
     }
 }
 
-const findOneUser = async (username) => sendQuery(`SELECT * FROM users WHERE username = ?`, true, username);
+const findOneUser = async (username) => sendQuery(`SELECT * FROM users WHERE username = ?`, false, username);
 
 const getAllData = async () => 
     sendQuery(`SELECT * FROM data`);
@@ -45,6 +45,18 @@ const getUserByName = (username) =>
 const deleteData = (id, userid) =>
     sendQuery(`DELETE FROM data WHERE id = ? AND userid = ?`, true, id, userid);
 */
+
+export const insertRandomData = async (num_rows) => {
+    const query = 'CALL insert_random_data(?)';  // Procedure name and parameter for number of rows
+    try {
+        const result = await pool.query(query, [num_rows]);
+        return result;
+    } catch (err) {
+        console.error('Error executing procedure:', err);
+        throw err;
+    }
+};
+
 export {
     addOneUser,
     getAllUsers,
@@ -55,4 +67,4 @@ export {
     logonUsers,
 //    getUserByName,
 //    deleteData,
-}
+};

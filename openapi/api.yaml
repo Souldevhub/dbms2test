@@ -21,6 +21,7 @@ security:
 
 servers:
   - url: http://localhost:3000
+  - url: anatoliiu2306851.westeurope.cloudapp.azure.com
   
 tags:
   - name: Sample dataset
@@ -47,6 +48,28 @@ paths:
                   $ref: '#/components/schemas/Data'
         '415':
           description: Unsupported media type
+  /data/insert-rows:
+      post:
+        tags:
+          - Sample dataset
+        summary: Inserts multiple rows of data
+        description: Inserts a specified number of rows into the dataset.
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  num_rows:
+                    type: integer
+                    description: "The number of rows to insert."
+        responses:
+          '200':
+            description: Rows inserted successfully
+          '400':
+            description: Invalid number of rows
+          '500':
+            description: Failed to insert rows
 
 components:
   schemas:

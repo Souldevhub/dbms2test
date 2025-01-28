@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {getAllData, getDataById, addData} from '../database.js'
+import {getAllData, getDataById, addData, insertRandomData} from '../database.js'
 let router = Router()
 
 router.get('/', async (req, res) => {
@@ -22,5 +22,25 @@ router.post('/', async (req, res) => {
             res.status(500).json({"error": "unknown database error"})
     }
 })
+
+router.post('/insert-rows', async (req, res) => {
+    const { num_rows } = req.body;
+
+    if (!num_rows || num_rows <= 0) {
+        return res.status(400).json({ error: 'Please provide a valid number of rows to insert.' });
+    }
+
+    try {
+        // Call the stored procedure to insert random data
+        const result = await insertRandomData(num_rows);
+
+        // Respond with success message
+        res.status(200).json({ message: `${num_rows} rows inserted successfully.` });
+    } catch (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).json({ error: 'Failed to insert rows.' });
+    }
+});
+
 
 export default router;
