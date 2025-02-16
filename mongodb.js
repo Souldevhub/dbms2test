@@ -1,19 +1,18 @@
 import { MongoClient } from 'mongodb';
 
-const mongoURI = 'mongodb://localhost:27017'; // Change this if needed
-const dbName = 'test'; // Change this to match your DB
+const mongoURI = 'mongodb://anatoliiu2306851.westeurope.cloudapp.azure.com:27017'; 
+const dbName = 'test';
 const client = new MongoClient(mongoURI);
 
-const logonUsers = new Map(); // Keeps track of logged-in users
+const logonUsers = new Map();
 
 const connectDB = async () => {
     try {
-        console.log("connectDB: Attempting to connect to MongoDB..."); // Debugging step
+        console.log("connectDB: Attempting to connect to MongoDB...");
         if (!client.topology || !client.topology.isConnected()) {
             await client.connect();
         }
-        console.log("connectDB: Successfully connected to MongoDB!"); // Debugging step
-        return client.db(dbName);
+        console.log("connectDB: Successfully connected to MongoDB!");
     } catch (error) {
         console.error("connectDB: MongoDB connection failed!", error);
         throw error;
@@ -21,15 +20,15 @@ const connectDB = async () => {
 };
 
 
-// Executes a generic MongoDB query
+
 const sendQuery = async (operation) => {
     try {
-        console.log("sendQuery: Connecting to DB...");  // Debugging step
+        console.log("sendQuery: Connecting to DB..."); 
         const db = await connectDB();
-        console.log("sendQuery: Connected to DB!"); // Debugging step
+        console.log("sendQuery: Connected to DB!"); 
 
         const result = await operation(db);
-        console.log("sendQuery: Query executed successfully!", result); // Debugging step
+        console.log("sendQuery: Query executed successfully!", result); 
 
         return result;
     } catch (err) {
@@ -39,11 +38,10 @@ const sendQuery = async (operation) => {
 };
 
 
-// Find a single user by username
 const findOneUser = async (username) =>
     sendQuery(db => db.collection('users').findOne({ username }));
 
-// Get all users
+
 const getAllUsers = async () =>
     sendQuery(db => db.collection('users').find().toArray());
 
@@ -83,7 +81,7 @@ const getNextSequence = async (sequenceName) => {
 
 
 const addData = async ({ Firstname, Surname, userid }) => {
-    const newId = await getNextSequence("data_id"); // Get next sequential ID
+    const newId = await getNextSequence("data_id"); 
     return sendQuery(db => db.collection('data').insertOne({
         id: newId,
         Firstname,
