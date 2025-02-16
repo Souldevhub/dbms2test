@@ -1,29 +1,28 @@
 import { Router } from 'express';
-import {getAllData, getDataById, addData, insert_multiple_rows} from '../database.js'
-let router = Router()
+import { getAllData, getDataById, addData, insert_multiple_rows, getAllUsers } from '../mongodb.js';
+import { verifyToken } from '../utils.js';  // Import your verifyToken middleware
 
-router.get('/', async (req, res) => {
-    res.json( await getAllData() )
-})
+let router = Router();
 
-router.get('/:id', async (req, res) => {
-    res.json( await getDataById(req.params.id) )
-})
+router.get('/', verifyToken, async (req, res) => {
+    res.json(await getAllData());
+});
 
-router.post('/', async (req, res) => {
-    let exist = await getDataById(req.body.id)
-    if( exist[0] ) {
-        res.status(409).json( {"error": "record already exists"});
+router.get('/:id', verifyToken, async (req, res) => {
+    res.json(await getDataById(req.params.id));
+});
+
+router.post('/', verifyToken, async (req, res) => {
+    let exist = await getDataById(req.body.id);
+    if (exist) {
+        res.status(409).json({ "error": "record already exists" });
     } else {
         let result = await addData(req.body);
-        if(result.affectedRows)
-            res.json(req.body);
-        else
-            res.status(500).json({"error": "unknown database error"})
+        res.json(result);
     }
-})
+});
 
-router.post('/insert-rows', async (req, res) => {
+router.post('/insert-rows', verifyToken, async (req, res) => {
     const { num_rows } = req.body;
 
     if (!num_rows || num_rows <= 0) {
@@ -38,6 +37,18 @@ router.post('/insert-rows', async (req, res) => {
         res.status(500).json({ error: 'Failed to insert rows.' });
     }
 });
+
+router.get('/users', verifyToken, async (req, res) => {
+    try {
+        let users = await getAllUsers();
+        console.log("Users from DB:", users);
+        res.json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ error: "Failed to retrieve users." });
+    }
+});
+
 
 
 export default router;

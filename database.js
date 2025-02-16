@@ -1,4 +1,4 @@
-import poolObj from './dbPool.js';
+/*import poolObj from './dbPool.js';
 const { pool } = poolObj;
 
 let logonUsers = new Map();
@@ -45,7 +45,7 @@ const getUserByName = (username) =>
 const deleteData = (id, userid) =>
     sendQuery(`DELETE FROM data WHERE id = ? AND userid = ?`, true, id, userid);
 */
-
+/*
 export const insert_multiple_rows = async (num_rows) => {
     const query = 'CALL insert_multiple_rows(?)';
     try {
@@ -68,3 +68,4 @@ export {
 //    getUserByName,
 //    deleteData,
 };
+*/

@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use('/doc', swaggerUi.serve,   swaggerUi.setup(swaggerDocument));
 app.use('/', index);
-app.use('/data', verifyToken, data);
+app.use('/data', data);
 app.use('/login', login);
 
 export default app;

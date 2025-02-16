@@ -1,4 +1,4 @@
-import { createPool } from "mariadb"
+/*import { createPool } from "mariadb"
 
 const pool = createPool({
     host: 'localhost',
@@ -13,3 +13,4 @@ const pool = createPool({
 export default Object.freeze({
     pool: pool
 })
+    */
